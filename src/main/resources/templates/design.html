@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Taco cloud</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+  <h1>Design your taco!</h1>
+  <img th:src="@{/images/12.png}" class="responsive-img" alt="Taco">
+
+  <form method="POST" th:object="${taco}">
+
+    <span class="validationError"
+          th:if="${#fields.hasErrors('ingredients')}"
+          th:errors="*{ingredients}">Ingredeint Error</span>
+
+    <div class="grid">
+      <div class="ingredient-group" id="wraps">
+        <h3>Designate your wrap:</h3>
+
+        <div th:each="ingredient: ${wrap}">
+          <input name="ingredients" type="checkbox" th:value="${ingredient.id}"/>
+          <span th:text="${ingredient.name}">INGREDIENT</span><br/>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="ingredient-group" id="proteins">
+        <h3>Designate your wrap:</h3>
+
+        <div th:each="ingredient: ${protein}">
+          <input name="ingredients" type="checkbox" th:value="${ingredient.id}"/>
+          <span th:text="${ingredient.name}">INGREDIENT</span><br/>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="ingredient-group" id="sauces">
+        <h3>Designate your wrap:</h3>
+
+        <div th:each="ingredient: ${sauce}">
+          <input name="ingredients" type="checkbox" th:value="${ingredient.id}"/>
+<!--          이 체크박스는 HTML name 속성과 th:value를 사용해 Taco 객체의 ingredients 필드와 매핑됩니다.-->
+          <span th:text="${ingredient.name}">INGREDIENT</span><br/>
+        </div>
+      </div>
+    </div>
+
+    <h3>Name your taco creation:</h3>
+    <input type="text" th:field="*{name}"/>
+<!--    *{name}은 th:object로 지정된 객체(taco)의 name 필드를 가리킵니다.-->
+    <span th:text="${#fields.hasErrors('name')}">XXX</span>
+    <span class="validationError"
+      th:if="${#fields.hasErrors('name')}"
+      th:errors="*{name}">Name Error</span>
+    </br>
+
+    <button>Submit your taco</button>
+
+  </form>
+</body>
+</html>

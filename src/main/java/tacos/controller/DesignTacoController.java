@@ -55,6 +55,19 @@ public class DesignTacoController {
         return "design";
     }
 
+    @PostMapping
+    public String processDesign(@Valid Taco design, Errors errors, @ModelAttribute Order order) {
+        if (errors.hasErrors()) {
+            log.error("error taco: " + design);
+            return "design";
+        }
+        log.info("Processing design: " + design);
+
+        Taco saved = tacoRepository.save(design);
+        order.addDesign(saved);
+        return "redirect:/orders/current";
+    }
+
     private List<Ingredient> filterByType(List<Ingredient> ingredients, Type type) {
         return ingredients.stream()
                 .filter(x -> x.getType().equals(type))
@@ -71,18 +84,6 @@ public class DesignTacoController {
         return new Taco();
     }
 
-    @PostMapping
-//    public String processDesign(Model model, @Valid Taco design, Errors errors) {
-    public String processDesign(@Valid Taco design, Errors errors, @ModelAttribute Order order) {
-        if (errors.hasErrors()) {
-//            return this.showDesignForm(model, errors);
-            log.error("error taco: " + design);
-            return "design";
-        }
-        //TODO: 타코만들어지기 위해 선택된 식자재 내역 불러오기
-        log.info("Processing design: " + design);
 
-        return "redirect:/orders/current";
-    }
 
 }

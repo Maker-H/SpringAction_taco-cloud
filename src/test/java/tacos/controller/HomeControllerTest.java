@@ -13,7 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 //@WebMvcTest(HomeController.class) //홈컨트롤러의 웹페이지 테스트
-@WebMvcTest(controllers = HomeController.class)
+//@WebMvcTest(controllers = HomeController.class)
 class HomeControllerTest {
 
     @Autowired

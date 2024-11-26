@@ -8,6 +8,12 @@
   <h1>Welcome to...</h1>
   <div>
       <img th:src="@{/images/12.png}" alt="taco"/>
+
+      <form method="POST" th:action="@{/logout}" id="logoutform">
+          <input type="submit" value="Logout"/>
+      </form>
+
+      <a th:href="@{/design}" id="design">Design a taco</a>
   </div>
 </body>
 </html>

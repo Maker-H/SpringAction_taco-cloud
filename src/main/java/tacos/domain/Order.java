@@ -3,6 +3,7 @@ package tacos.domain;
 import lombok.Data;
 import org.hibernate.validator.constraints.CreditCardNumber;
 
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
@@ -42,6 +43,9 @@ public class Order {
     private String ccCVV;
 
     private List<Taco> tacos = new ArrayList<>();
+
+    @ManyToOne
+    private User user;
 
     public void addDesign(Taco design) {
         this.tacos.add(design);

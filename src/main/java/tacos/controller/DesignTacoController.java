@@ -8,12 +8,15 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import tacos.data.IngredientRepository;
 import tacos.data.TacoRepository;
+import tacos.data.UserRepository;
 import tacos.domain.Ingredient;
 import tacos.domain.Ingredient.Type;
 import tacos.domain.Order;
 import tacos.domain.Taco;
+import tacos.domain.User;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,15 +33,21 @@ public class DesignTacoController {
 
     private final TacoRepository tacoRepository;
 
+    private final UserRepository userRepository;
+
     @Autowired
-    public DesignTacoController(IngredientRepository ingredientRepository, TacoRepository tacoRepository) {
+    public DesignTacoController(IngredientRepository ingredientRepository,
+                                UserRepository userRepository,
+                                TacoRepository tacoRepository) {
         this.ingredientRepository = ingredientRepository;
         this.tacoRepository = tacoRepository;
+        this.userRepository = userRepository;
     }
 
     @GetMapping
-    public String showDesignForm(Model model) {
+    public String showDesignForm(Model model, Principal principal) {
 
+        log.info("=> design controller [show design form]");
         List<Ingredient> ingredients = new ArrayList<>();
         ingredientRepository.findAll().forEach(i -> ingredients.add(i));
 
@@ -49,12 +58,21 @@ public class DesignTacoController {
 
             model.addAttribute(typeName, ingredientsFilterByType);
         }
-        
+
+        try {
+
+            String username = principal.getName();
+            User user = userRepository.findByUsername(username);
+            model.addAttribute("user", user);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return "design";
     }
 
     @PostMapping
     public String processDesign(@Valid Taco design, Errors errors, @ModelAttribute Order order) {
+        log.info("=> design controller [processDesign]");
         if (errors.hasErrors()) {
             log.error("error taco: " + design);
             return "design";
@@ -63,6 +81,7 @@ public class DesignTacoController {
 
         Taco saved = tacoRepository.save(design);
         order.addDesign(saved);
+
         return "redirect:/orders/current";
     }
 

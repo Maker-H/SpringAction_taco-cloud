@@ -15,7 +15,7 @@ public class Taco {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Date createAt;
+    private Date createdAt;
 
     @NotNull
     @Size(min=5, message = "Name must be at least 5 characters long")
@@ -29,6 +29,6 @@ public class Taco {
 
     @PrePersist
     void createdAt() {
-        this.createAt = new Date();
+        this.createdAt = new Date();
     }
 }

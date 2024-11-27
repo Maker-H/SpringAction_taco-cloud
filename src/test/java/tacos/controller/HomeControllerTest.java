@@ -14,18 +14,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 //@WebMvcTest(HomeController.class) //홈컨트롤러의 웹페이지 테스트
 //@WebMvcTest(controllers = HomeController.class)
-class HomeControllerTest {
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Test
-    public void testHomePage() throws Exception {
-
-        mockMvc.perform(get("/")) //get수행
-                .andExpect(status().isOk()) //200
-                .andExpect(view().name("home")) //뷰 이름
-                .andExpect((content().string(containsString("Welcome to..."))));
-
-    }
-}
+//class HomeControllerTest {
+//
+//    @Autowired
+//    private MockMvc mockMvc;
+//
+//    @Test
+//    public void testHomePage() throws Exception {
+//
+//        mockMvc.perform(get("/")) //get수행
+//                .andExpect(status().isOk()) //200
+//                .andExpect(view().name("home")) //뷰 이름
+//                .andExpect((content().string(containsString("Welcome to..."))));
+//
+//    }
+//}

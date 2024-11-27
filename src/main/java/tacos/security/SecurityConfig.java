@@ -21,16 +21,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception{ //http 보안
+//        httpSecurity
+//                .authorizeRequests()
+//                .antMatchers("/design", "/orders").access("hasRole('ROLE_USER')")
+//                .antMatchers("/", "/**").access("permitAll");
+//                .and()
+//                    .formLogin().loginPage("/login").defaultSuccessUrl("/design", true)
+//                .and()
+//                    .logout().logoutSuccessUrl("/")
+//                .and()
+//                    .csrf();
+
+
+
+
         httpSecurity
                 .authorizeRequests()
-                .antMatchers("/design", "/orders").access("hasRole('ROLE_USER')")
-                .antMatchers("/", "/**").access("permitAll")
+                .antMatchers("/h2-console/**").permitAll() // H2 Console 접근 허용
+                .antMatchers("/", "/**").permitAll()      // 나머지 경로도 모두 허용
                 .and()
-                    .formLogin().loginPage("/login").defaultSuccessUrl("/design", true)
+                .csrf()
+                .ignoringAntMatchers("/h2-console/**")   // H2 Console 경로에서 CSRF 비활성화
                 .and()
-                    .logout().logoutSuccessUrl("/")
-                .and()
-                    .csrf();
+                .headers()
+                .frameOptions().sameOrigin();
     }
 
 

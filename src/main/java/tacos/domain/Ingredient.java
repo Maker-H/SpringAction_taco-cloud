@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 
 @Data //게터 새터, 생성자 등의 메서드를 자동 생성하라고 알려주는 롬복 애너테이션
@@ -17,6 +19,7 @@ public class Ingredient {
      @Id
      private final String id;
      private final String name;
+     @Enumerated(EnumType.STRING)
      private final Type type;
 
      public static enum Type {

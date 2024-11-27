@@ -10,11 +10,15 @@ import java.util.List;
 
 @Data
 @Entity
+//@Table(name = "TACO")
 public class Taco {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+//    @Column(name = "CREATEDAT")
+    @Temporal(TemporalType.TIMESTAMP) // Hibernate가 TIMESTAMP와 매핑하도록 지정
     private Date createdAt;
 
     @NotNull
@@ -23,7 +27,12 @@ public class Taco {
 
     // size는 null일때는 통과 null이 아닐때의 size를 의미
     @Size(min = 2, message = "you must choose at least 1 ingredient")
-    @ManyToMany(targetEntity = Ingredient.class)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "TACO_INGREDIENTS", // 조인 테이블 이름
+            joinColumns = @JoinColumn(name = "TACO"), // Taco의 기본 키를 참조하는 컬럼
+            inverseJoinColumns = @JoinColumn(name = "INGREDIENT") // Ingredient의 기본 키를 참조하는 컬럼
+    )
     private List<Ingredient> ingredients;
     // 뷰에서는 스프링 converter사용하기
 
